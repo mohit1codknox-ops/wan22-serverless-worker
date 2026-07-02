@@ -1,20 +1,11 @@
-import runpod
+FROM python:3.12-slim
 
+WORKDIR /app
 
-def handler(event):
-    """
-    RunPod Serverless handler.
-    """
-    job_input = event.get("input", {})
+COPY requirements.txt .
 
-    prompt = job_input.get("prompt", "")
+RUN pip install --no-cache-dir -r requirements.txt
 
-    return {
-        "status": "success",
-        "message": "RunPod worker is running successfully.",
-        "prompt_received": prompt
-    }
+COPY . .
 
-
-if __name__ == "__main__":
-    runpod.serverless.start({"handler": handler})
+CMD ["python", "-u", "src/handler.py"]
