@@ -3,18 +3,21 @@ import runpod
 
 def handler(job):
     """
-    This function is called every time a request reaches the RunPod endpoint.
+    RunPod Serverless Entry Point
     """
-
-    job_input = job["input"]
+    job_input = job.get("input", {})
 
     prompt = job_input.get("prompt", "")
 
     return {
         "status": "success",
-        "message": "RunPod worker is working!",
-        "prompt": prompt
+        "message": "RunPod worker is running successfully.",
+        "prompt_received": prompt
     }
 
 
-runpod.serverless.start({"handler": handler})
+runpod.serverless.start(
+    {
+        "handler": handler
+    }
+)
